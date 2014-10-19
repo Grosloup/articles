@@ -1,0 +1,32 @@
+zpb_admin_api_post_category_create:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ApiPostCategory:create }
+    methods: ["POST"]
+
+zpb_admin_api_post_category_update:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ApiPostCategory:update }
+    methods: ["PUT"]
+
+zpb_admin_api_post_category_delete:
+    path: /{id}
+    defaults: { _controller: ZPBAdminBundle:ApiPostCategory:delete }
+    methods: ["DELETE"]
+    requirements:
+        id: \d+
+
+zpb_admin_api_post_category_read:
+    path: /{id}
+    defaults: { _controller: ZPBAdminBundle:ApiPostCategory:read }
+    methods: ["GET"]
+    requirements:
+        id: \d+
+
+zpb_admin_api_post_category_all:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ApiPostCategory:all }
+    methods: ["GET"]
+
+
+
+

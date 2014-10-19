@@ -1,0 +1,23 @@
+zpb_admin_posts_create:
+    path: /ecrire
+    defaults: { _controller: ZPBAdminBundle:Post:create }
+    methods: ["GET","POST"]
+
+zpb_admin_posts_update:
+    path: /modifier/{id}
+    defaults: { _controller: ZPBAdminBundle:Post:update }
+    methods: ["GET","POST"]
+    requirements:
+        id: \d+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+zpb_admin_index:
+    path:     /admin
+    defaults: { _controller: ZPBAdminBundle:Index:index }
+
+zpb_admin_posts_routes:
+    prefix: /admin/articles
+    resource: "@ZPBAdminBundle/Resources/config/routing/posts.yml"
+
+zpb_admin_api_post_category_routes:
+    prefix: /api/post/categories
+    resource: "@ZPBAdminBundle/Resources/config/routing/api_post_category.yml"
+
+zpb_admin_api_post_tags_routes:
+    prefix: /api/post/tags
+    resource: "@ZPBAdminBundle/Resources/config/routing/api_post_tag.yml"
+
+
+
+
+
+
+
+
+
+

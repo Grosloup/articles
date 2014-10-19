@@ -1,0 +1,4 @@
+services:
+#    zpb_sites_zoo.example:
+#        class: ZPB\Sites\ZooBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

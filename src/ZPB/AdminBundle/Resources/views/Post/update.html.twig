@@ -1,0 +1,171 @@
+{% extends "ZPBAdminBundle:Layouts:master.html.twig" %}
+{% block angular %}UpdatePostApp{% endblock %}
+{% block title %}MaJ{% endblock %}
+{% block headStyles %}
+    {{ parent() }}
+    <style>
+
+
+        .loader{
+            background: url("/img/ajax-loader.gif") no-repeat center center;
+            width: 34px;
+            height: 34px;
+        }
+    </style>
+{% endblock %}
+{% block headScripts %}
+    {{ parent() }}
+
+    <script>
+        var initCategories = [
+            {% for c in categories %}
+            {id: {{ c.id}}, name: "{{ c.name }}", slug:"{{ c.slug }}" }{% if loop.last != true %},{% endif %}
+            {% endfor %}
+        ];
+        var initTags = [
+            {% for t in tags %}
+            {id: {{ t.id}}, name: "{{ t.name }}", slug:"{{ t.slug }}" }{% if loop.last != true %},{% endif %}
+            {% endfor %}
+        ];
+
+        var postInitialCategory = {% if post.category != null %} {id: {{ post.category.id}}, name: "{{ post.category.name }}", slug: "{{ post.category.slug }}" }; {% else %} {}; {% endif %}
+        var postInitialTags = {%- if post.tags|length > 0 -%}
+                [{%- for tag in post.tags -%}
+                    {id: {{ tag.id}}, name: "{{ tag.name }}", slug: "{{ tag.slug }}" }{% if loop.last != true %},{% endif %}
+                {%- endfor -%}];
+        {%- else -%}
+            [];
+        {%- endif -%}
+
+        var postTargets = [
+            {% for key,target in targets %}
+            {key: "{{ key }}", name: "{{ target|raw }}", checked: {% if key in post.targets %}true{% else %}false{% endif %} }{% if loop.last != true %},{% endif %}
+
+            {% endfor %}
+        ];
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header">
+                    <h1>MaJ un article</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="row" ng-controller="CategoriesController">
+            <div class="col-md-6">
+                <form>
+                    <div class="form-group">
+                        <label for="">Catégories</label>
+                        <select name="" id="" class="form-control" ng-model="cat_selected" ng-options="c.name for c in categories|orderBy:'name'"></select>
+                    </div>
+
+                </form>
+                <form name="new_category_form" ng-submit="newCatForPost()">
+                <div class="form-group">
+                    <label for="">Créer une catégorie</label>
+                    <input type="text" name="" id="" ng-model="new_cat_name" class="form-control" ng-show="!cat_is_saving"/>
+                    <div class="loader" ng-show="cat_is_saving"></div>
+                </div>
+
+                </form>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+
+        <div class="row" ng-controller="TagsController">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-5">
+                        <ul class="list-unstyled">
+                            <li ng-repeat="(key,t) in tags|orderBy:'name'" class="btn btn-primary btn-sm" ng-click="addTag(t)">{$ t.name $}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2">&laquo;&raquo;</div>
+                    <div class="col-md-5">
+                        <ul class="list-unstyled">
+                            <li ng-repeat="(key,t) in post_tags" class="btn btn-primary btn-sm" ng-click="removeTag(t)">{$ t.name $}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form ng-submit="newTag()">
+                            <div class="form-group">
+                                <label for="">Créer un mot-clé</label>
+                                <input type="text" ng-model="new_tag_name" ng-show="!tag_is_saving" class="form-control"/>
+                                <div class="loader" ng-show="tag_is_saving"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" ng-controller="TargetsController">
+        <div class="row">
+            <div class="col-md-6">
+                <form>
+                    <div class="form-group">
+                        <label for="">Cibles de l'article</label>
+
+                    </div>
+                    <div class="checkbox" ng-repeat="target in targets"><label for="{$ target.key $}"><input type="checkbox" id="{$ target.key $}" ng-model="target.checked">{$ target.name $}</label></div>
+                </form>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6" ng-controller="PostController">
+                <form action="{{ path("zpb_admin_posts_update", {id: post.id}) }}" method="post" name="update_post_form">
+
+                    <div class="form-group">
+                        <label for="">Titre</label>
+                        <input type="text" name="update_post_form[title]" id="" value="{{ post.title }}" class="form-control"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Body</label>
+                        <textarea name="update_post_form[body]" class="form-control">{{ post.body }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Excerpt</label>
+                        <textarea class="form-control"name="new_post_form[excerpt]"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Catégorie : {$ datas.category.name $}</label>
+                    </div>
+                    <input name="update_post_form[category]" type="hidden" value="{$ datas.category.id $}"/>
+
+                    <input ng-repeat="t in datas.tags" name="update_post_form[tags][]" type="hidden" value="{$ t.id $}"/>
+                    <input name="update_post_form[targets][]" type="hidden" ng-repeat="target in datas.targets" value="{$ target.key $}"/>
+                    <input name="update_post_form[_token]" type="hidden" value="{{ csrf_token('update_post') }}"/>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary">Mettre à jour</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+{% endblock %}
+{% block footScripts %}
+    {{ parent() }}
+    <script src="/js/admin/post/CategoriesClass.js"></script>
+    <script src="/js/admin/post/TagsClass.js"></script>
+    <script src="/js/vendor/angular/angular.min.js"></script>
+
+    <script src="/js/admin/post/update_post_app.js"></script>
+{% endblock %}

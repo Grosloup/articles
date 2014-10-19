@@ -1,0 +1,28 @@
+zpb_admin_api_post_tag_create:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ApiPostTag:create }
+    methods: ["POST"]
+
+zpb_admin_api_post_tag_update:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ApiPostTag:update }
+    methods: ["PUT"]
+
+zpb_admin_api_post_tag_delete:
+    path: /{id}
+    defaults: { _controller: ZPBAdminBundle:ApiPostTag:delete }
+    methods: ["DELETE"]
+    requirements:
+        id: \d+
+
+zpb_admin_api_post_tag_read:
+    path: /{id}
+    defaults: { _controller: ZPBAdminBundle:ApiPostTag:read }
+    methods: ["GET"]
+    requirements:
+        id: \d+
+
+zpb_admin_api_post_tag_all:
+    path: /
+    defaults: { _controller: ZPBAdminBundle:ApiPostTag:all }
+    methods: ["GET"]

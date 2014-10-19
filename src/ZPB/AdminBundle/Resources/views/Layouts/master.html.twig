@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr" {% if block('angular') %}ng-app="{{ block('angular') }}"{% endif %}>
+<head>
+    <meta charset="UTF-8">
+    <title>{% if block('title') %}{{ block('title') }} | {% endif %}Admin | Articles</title>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    {% block headLinks %}
+        <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    {% endblock %}
+    {% block headStyles %}{% endblock %}
+    {% block headScripts %}{% endblock %}
+</head>
+<body>
+{% block content %}{% endblock %}
+{% block footScripts %}
+    <script src="/js/vendor/jquery.js"></script>
+{% endblock %}
+</body>
+</html>

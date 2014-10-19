@@ -1,0 +1,25 @@
+{% extends "ZPBSitesZooBundle:Layouts:master.html.twig" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% for post in posts %}
+                    <article class="post">
+                        <header>
+                            <h3>{{ post.title }}</h3>
+                            <p>{{ post.updatedAt|date("d/m/y") }}</p>
+                        </header>
+                        <section>
+                            <p>{{ post.body }}</p>
+                        </section>
+
+                    </article>
+                {% endfor %}
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,8 @@
+zpb_admin:
+    resource: "@ZPBAdminBundle/Resources/config/routing.yml"
+    prefix:   /
+
+zpb_sites_zoo:
+    resource: "@ZPBSitesZooBundle/Resources/config/routing.yml"
+    prefix:   /
+
